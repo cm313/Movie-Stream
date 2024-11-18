@@ -1,21 +1,20 @@
 import React from 'react'
-import useEffect from "react";
-
+import ShimmerUI from "./ShimmerUI"
+import MovieCard from "./MovieCard"
+import useFetchMovieData from '../CustomHooks/useFetchMovieData';
 const Body = () => {
- 
-  useEffect(()=>{
-      fetchMoviesData();
-  },[])
- 
- const fetchMoviesData = async()=>{
-   const data = await fetch("https://dummyapi.online/api/movies");
-   const jsonData = await JSON.data();
-   console.log(jsonData);
- }
+
+  const listOfMovies = useFetchMovieData();
 
   return (
-    <div>
-
+   listOfMovies.length === 0 ? <ShimmerUI/>:
+    <div className="flex flex-wrap ml-10">
+      {
+        listOfMovies.map((movieData)=>(
+         <MovieCard key = {movieData.id} movieInfo = {movieData}/>
+        )
+        )
+      }
     </div>
   )
 }
